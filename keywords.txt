@@ -1,0 +1,59 @@
+#######################################
+# Syntax Map For DFRobot_MCP23017
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+DFRobot_MCP23017	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+begin	KEYWORD2
+pinMode	KEYWORD2
+digitalWrite	KEYWORD2
+digitalRead	KEYWORD2
+pinModeInterrupt	KEYWORD2
+pollInterrupts	KEYWORD2
+pinDescription	KEYWORD2
+
+#######################################
+# Instances (KEYWORD2)
+#######################################
+
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+ePin_t	LITERAL1
+eGPA0	LITERAL1
+eGPA1	LITERAL1
+eGPA2	LITERAL1
+eGPA3	LITERAL1
+eGPA4	LITERAL1
+eGPA5	LITERAL1
+eGPA6	LITERAL1
+eGPA7	LITERAL1
+eGPB0	LITERAL1
+eGPB1	LITERAL1
+eGPB2	LITERAL1
+eGPB3	LITERAL1
+eGPB4	LITERAL1
+eGPB5	LITERAL1
+eGPB6	LITERAL1
+eGPB7	LITERAL1
+eGPIOTotal	LITERAL1
+eInterruptMode_t	LITERAL1
+eLowLevel	LITERAL1
+eHighLevel	LITERAL1
+eRising	LITERAL1
+eFalling	LITERAL1
+eChangeLevel	LITERAL1
+eGPIOGrout_t	LITERAL1
+eGPIOA	LITERAL1
+eGPIOB	LITERAL1
+eGPIOALL	LITERAL1
+
