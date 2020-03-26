@@ -2,6 +2,15 @@
 This is a 16-bit digital IO expansion board that communicates with main-controller via IIC to read and set Level value of the pins. <br>
 The board supports 8 IIC addresses. One main-controller board can be connected with at most 8 modules in parallel to expand 128 IO ports. <br>
 
+<br>
+<img src="./image/DFR0626-image.jpg">
+<br>
+
+* Arduino UNO
+<br>
+<img src="./image/DFR0626-CONNECT1.jpg">
+<br>
+
 ## Table of Contents
 
 * [Summary](#summary)
@@ -10,6 +19,13 @@ The board supports 8 IIC addresses. One main-controller board can be connected w
 * [Compatibility](#compatibility)
 * [History](#history)
 * [Credits](#credits)
+
+## URL
+* Project URL : ```https://github.com/DFRobot/DFRobot_MCP23017```
+
+* Tutorial URL : [Wiki](http://wiki.dfrobot.com.cn/index.php?title=(SKU:DFR0626)MCP23017_IIC_to_16_digital_IO_expansion_module).
+
+* Get a purchase connection: [store](https://www.dfrobot.com/).
 
 ## Summary
 
