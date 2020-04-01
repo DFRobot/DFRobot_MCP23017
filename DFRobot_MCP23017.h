@@ -64,17 +64,12 @@
 typedef void(*MCP23017_INT_CB)(int index);
 
 class DFRobot_MCP23017{
+
 public:
   #define ERR_OK             0      //ok
   #define ERR_PIN           -1      //error in pin number 
   #define ERR_DATA_READ     -2      //failed to read data bus
   #define ERR_ADDR          -3      //error in I2C address
-  
-  typedef enum{
-      eGPIOA = 1,  /**< GPIO Group A*/
-      eGPIOB = 2,  /**< GPIO Group B*/
-      eGPIOALL = 3 /**< GPIO Group A+B*/
-  }eGPIOGrout_t;
   
   typedef enum{
       eGPA0 = 0,  /**< PortA, digital pin GPA0*/
@@ -93,8 +88,15 @@ public:
       eGPB5,  /**< PortB, digital pin GPB5*/
       eGPB6,  /**< PortB, digital pin GPB6*/
       eGPB7,  /**< PortB, digital pin GPB7*/
-      eGPIOTotal
+      eGPIOTotal,
+	  eGPA,
+	  eGPB,
   }ePin_t;
+  typedef enum{
+      eGPIOA,  /**< GPIO Group A*/
+      eGPIOB,  /**< GPIO Group B*/
+      eGPIOALL /**< GPIO Group A+B*/
+  }eGPIOGroup_t;
   
   typedef enum{
       eLowLevel = 0,   /**< configure pin interrupt, low-level interrupt */
@@ -185,21 +187,22 @@ public:
 
   /**
    * @brief Poll if an interrupt occurs on a port group.
-   * @param group Port group, it could be all enumeration values included in eGPIOGrout_t,  GPIO GroupA(eGPIOA), 
+   * @param group Port group, it could be all enumeration values included in eGPIOGroup_t,  GPIO GroupA(eGPIOA), 
    * @n GPIO GroupB(eGPIOB) GroupA+B (eGPIOALL).
    * @n When setting to eGPIOA，poll if an interrupt occurs on the port group A. 
    * @n When setting to eGPIOB, poll if an interrupt occurs on the port group B.
    * @n When setting to eGPIOALL, poll if an interrupt occurs on the port group A+B
    * @n None, poll if an interrupt occurs on the all ports of group A and B by default. 
    */
-  void pollInterrupts(eGPIOGrout_t group=eGPIOALL);
+  void pollInterrupts(eGPIOGroup_t group=eGPIOALL);
 
   /**
    * @brief Convert pin into string description
    * @param pin Pin number, it could be all enumeration values (eGPA0-eGPB7/ 0-15) inlcuded in ePin_t.
    * @return Return pin description string
-   * @n 如"GPIOA0" "GPIOA1" "GPIOA2" "GPIOA3" "GPIOA4" "GPIOA5" "GPIOA6" "GPIOA7"
-   * @n   "GPIOB0" "GPIOB1" "GPIOB2" "GPIOB3" "GPIOB4" "GPIOB5" "GPIOB6" "GPIOB7"
+   * @n such as "eGPA0" "eGPA1" "eGPA2" "eGPA3" "eGPA4" "eGPA5" "eGPA6" "eGPA7"
+   * @n   "eGPB0" "eGPB1" "eGPB2" "eGPB3" "eGPB4" "eGPB5" "eGPB6" "eGPB7"
+   * @n   "eGPA" "eGPB"
    */
   String pinDescription(ePin_t pin);
 
@@ -207,8 +210,9 @@ public:
    * @brief Convert pin into string description 
    * @param pin  Pin number, range 0~15
    * @return Return pin description string
-   * @n 如"GPIOA0" "GPIOA1" "GPIOA2" "GPIOA3" "GPIOA4" "GPIOA5" "GPIOA6" "GPIOA7"
-   * @n   "GPIOB0" "GPIOB1" "GPIOB2" "GPIOB3" "GPIOB4" "GPIOB5" "GPIOB6" "GPIOB7"
+   * @n such as "eGPA0" "eGPA1" "eGPA2" "eGPA3" "eGPA4" "eGPA5" "eGPA6" "eGPA7"
+   * @n   "eGPB0" "eGPB1" "eGPB2" "eGPB3" "eGPB4" "eGPB5" "eGPB6" "eGPB7"
+   * @n   "eGPA" "eGPB"
    */
   String pinDescription(int pin);
 
@@ -219,21 +223,21 @@ protected:
    * @param Move index to the left 
    * @return Return 0 if the setting is successful, otherwise return non-zero.
    */
-  int setInput(uint8_t reg, uint8_t index);
+  int setInput(uint8_t reg, uint8_t index, bool flag = true);
   /**
    * @brief Set a pin to output mode
    * @param reg Direction register REG_MCP23017_IODIRA  or MCP23017_IODIRB
    * @param Move index to the left
    * @return Return 0 if the setting is successful, otherwise return non-zero.
    */
-  int setOutput(uint8_t reg, uint8_t index);
+  int setOutput(uint8_t reg, uint8_t index, bool flag = true);
   /**
    * @brief Set a pin to pull-up mode 
    * @param reg Pull-up register  MCP23017_GPPUA or MCP23017_GPPUB
    * @param Move index to the left
    * @return Return 0 if the setting is successful, otherwise return non-zero.
    */
-  int setPullUp(uint8_t reg, uint8_t index);
+  int setPullUp(uint8_t reg, uint8_t index, bool flag = true);
   /**
    * @brief Set a pin to double edge interrupt 
    * @param index Pin number 

@@ -34,10 +34,10 @@ DFRobot_MCP23017 mcp(Wire, 0x27);//constructor, change the Level of A2, A1, A0 v
 void func(int index){
   /*pinDescription function is used to convert a pin into string description
   Parameter pin, the available parameter is shown below:
-  eGPA0  eGPA1  eGPA2  eGPA3  eGPA4  eGPA5  eGPA6  eGPA7
-    0      1      2      3      4      5      6      7
-  eGPB0  eGPB1  eGPB2  eGPB3  eGPB4  eGPB5  eGPB6  eGPB7
-    8      9      10     11     12     13     14     15
+  eGPA0  eGPA1  eGPA2  eGPA3  eGPA4  eGPA5  eGPA6  eGPA7  eGPA
+   0       1      2      3      4      5      6      7
+  eGPB0  eGPB1  eGPB2  eGPB3  eGPB4  eGPB5  eGPB6  eGPB7  eGPB
+   8       9      10     11     12     13     14     15
   */
   String description = mcp.pinDescription(/*pin = */index);
   Serial.print(description);
@@ -55,10 +55,10 @@ void setup() {
 
   /*pinModeInterrupt function is used to set a pin to interrupt mode. The pin will be automatically set to input mode by the function.
   Parameter pin, the available parameter is shown below: 
-  eGPA0  eGPA1  eGPA2  eGPA3  eGPA4  eGPA5  eGPA6  eGPA7
-    0      1      2      3      4      5      6      7
-  eGPB0  eGPB1  eGPB2  eGPB3  eGPB4  eGPB5  eGPB6  eGPB7
-    8      9      10     11     12     13     14     15
+  eGPA0  eGPA1  eGPA2  eGPA3  eGPA4  eGPA5  eGPA6  eGPA7  eGPA
+   0       1      2      3      4      5      6      7
+  eGPB0  eGPB1  eGPB2  eGPB3  eGPB4  eGPB5  eGPB6  eGPB7  eGPB
+   8       9      10     11     12     13     14     15
   Parameter mode, the available is shown below:  
   eLowLevel             eHighLevel             eRising                  eFalling                 eChangeLevel
   Low-level interrupt   High-level interrupt   Rising-edge interrupt    Falling-edge interrupt   Double-edge interrupts 

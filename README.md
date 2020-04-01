@@ -95,8 +95,9 @@ void pollInterrupts(eGPIOGrout_t group=eGPIOALL);
  * @brief Convert pin into string description 
  * @param pin Pin number, it could be all enumeration values (eGPA0-eGPB7/ 0-15) inlcuded in ePin_t.
  * @return Return pin description string 
- * @n Such as "GPIOA0" "GPIOA1" "GPIOA2" "GPIOA3" "GPIOA4" "GPIOA5" "GPIOA6" "GPIOA7"
- * @n   "GPIOB0" "GPIOB1" "GPIOB2" "GPIOB3" "GPIOB4" "GPIOB5" "GPIOB6" "GPIOB7"
+ * @n such as "eGPA0" "eGPA1" "eGPA2" "eGPA3" "eGPA4" "eGPA5" "eGPA6" "eGPA7"
+ * @n   "eGPB0" "eGPB1" "eGPB2" "eGPB3" "eGPB4" "eGPB5" "eGPB6" "eGPB7"
+ * @n   "eGPA" "eGPB"
  */
 String pinDescription(ePin_t pin);
 
@@ -104,8 +105,9 @@ String pinDescription(ePin_t pin);
  * @brief Convert pin into string description 
  * @param pin Pin number, range 0~15
  * @return Return pin description string
- * @n Such as "GPIOA0" "GPIOA1" "GPIOA2" "GPIOA3" "GPIOA4" "GPIOA5" "GPIOA6" "GPIOA7"
- * @n   "GPIOB0" "GPIOB1" "GPIOB2" "GPIOB3" "GPIOB4" "GPIOB5" "GPIOB6" "GPIOB7"
+ * @n such as "eGPA0" "eGPA1" "eGPA2" "eGPA3" "eGPA4" "eGPA5" "eGPA6" "eGPA7"
+ * @n   "eGPB0" "eGPB1" "eGPB2" "eGPB3" "eGPB4" "eGPB5" "eGPB6" "eGPB7"
+ * @n   "eGPA" "eGPB"
  */
 String pinDescription(int pin);
 ```

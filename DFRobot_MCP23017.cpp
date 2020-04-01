@@ -85,98 +85,110 @@ String DFRobot_MCP23017::pinDescription(int pin){
 int DFRobot_MCP23017::pinMode(ePin_t pin, uint8_t mode)
 {
   uint8_t _pin = (uint8_t)pin;
-  if(_pin >= /*16*/(uint8_t)eGPIOTotal){
-      DBG("pin ERROR!");
-      return ERR_PIN;
+  uint8_t reg = 0;
+  uint8_t reg1 = 0;
+  bool flag = false;
+  if(_pin == (uint8_t)eGPA){
+      reg = REG_MCP23017_IODIRA;
+      reg1 = REG_MCP23017_GPPUA;
+  }else if(_pin == (uint8_t)eGPB){
+      reg = REG_MCP23017_IODIRB;
+      reg1 = REG_MCP23017_GPPUB;
+  }else{
+      if(_pin >= /*16*/(uint8_t)eGPIOTotal){
+          return ERR_PIN;
+      }
+      if(_pin < (uint8_t)eGPB0){
+          reg = REG_MCP23017_IODIRA;
+          reg1 = REG_MCP23017_GPPUA;
+      }else{
+          reg = REG_MCP23017_IODIRB;
+          reg1 = REG_MCP23017_GPPUB;
+      }
+      flag = true;
   }
   switch(mode){
-      case INPUT: 
-             DBG("INPUT");
-             if(_pin < (uint8_t)eGPB0){
-                 setInput(REG_MCP23017_IODIRA, _pin);
-             }else{
-                 setInput(REG_MCP23017_IODIRB, _pin - 8);
-             }
-             break;
+      case INPUT:
+          setInput(reg, _pin%8, flag);
+          break;
       case OUTPUT:
-             DBG("OUTPUT");
-             if(_pin < (uint8_t)eGPB0){
-                 setOutput(REG_MCP23017_IODIRA, _pin);
-             }else{
-                 setOutput(REG_MCP23017_IODIRB, _pin - 8);
-             }
-             break;
-      default: 
-            DBG("OTHERS");
-             if(_pin < (uint8_t)eGPB0){
-                 setInput(REG_MCP23017_IODIRA, _pin);
-                 setPullUp(REG_MCP23017_GPPUA, _pin);
-             }else{
-                 setInput(REG_MCP23017_IODIRB, _pin - 8);
-                 setPullUp(REG_MCP23017_GPPUB, _pin - 8);
-             }
-             break;
+          setOutput(reg, _pin%8, flag);
+          break;
+      default:
+          setInput(reg, _pin%8, flag);
+          setPullUp(reg1, _pin%8, flag);
+          break;
   }
   return ERR_OK;
 }
 
 int DFRobot_MCP23017::digitalWrite(ePin_t pin, uint8_t level){
   uint8_t _pin = (uint8_t)pin;
-  if(_pin >= /*15*/(uint8_t)eGPIOTotal){
-      DBG("pin ERROR!");
-      return ERR_PIN;
-  }
-  uint8_t value = 0;
-  if(_pin < (uint8_t)eGPB0){
-      if(readReg(REG_MCP23017_OLATA, &value, 1) != 1){
-          DBG("I2C READ ERROR!");
-          return ERR_DATA_READ;
-      }
-      DBG(value,HEX);
-      value = updateBit(value, _pin, level);
-      writeReg(REG_MCP23017_GPIOA, &value, 1);
-      if(readReg(REG_MCP23017_OLATA, &value, 1) != 1){
-          DBG("I2C READ ERROR!");
-          return ERR_DATA_READ;
-      }
-      DBG(value,HEX);
+  uint8_t reg = 0;
+  uint8_t reg1 = 0;
+  uint8_t value = level;
+  uint8_t flag = true;
+  if(_pin == (uint8_t)eGPA){
+      reg = REG_MCP23017_GPIOA;
+      reg1 = REG_MCP23017_OLATA;
+      flag = false;
+  }else if(_pin == (uint8_t)eGPB){
+      reg = REG_MCP23017_GPIOB;
+      reg1 = REG_MCP23017_OLATB;
+      flag = false;
   }else{
-      if(readReg(REG_MCP23017_OLATB, &value, 1) != 1){
-          DBG("I2C READ ERROR!");
-          return ERR_DATA_READ;
+      if(_pin >= /*15*/(uint8_t)eGPIOTotal){
+          DBG("pin ERROR!");
+          return ERR_PIN;
       }
-      DBG(value,HEX);
-      value = updateBit(value, (_pin - 8), level);
-      writeReg(REG_MCP23017_GPIOB, &value, 1);
-      if(readReg(REG_MCP23017_OLATB, &value, 1) != 1){
-          DBG("I2C READ ERROR!");
-          return ERR_DATA_READ;
+      if(_pin < (uint8_t)eGPB0){
+          reg = REG_MCP23017_GPIOA;
+          reg1 = REG_MCP23017_OLATA;
+      }else{
+          reg = REG_MCP23017_GPIOB;
+          reg1 = REG_MCP23017_OLATB;
       }
-      DBG(value,HEX);
-
   }
+  if(flag){
+      if(readReg(reg, &value, 1) != 1){
+          DBG("I2C READ ERROR!");
+          return ERR_DATA_READ;
+      }
+      value = updateBit(value, _pin%8, level&0x01);
+  }
+  writeReg(reg, &value, 1);
+  if(readReg(reg1, &value, 1) != 1){
+       DBG("I2C READ ERROR!");
+       return ERR_DATA_READ;
+   }
   return ERR_OK;
 }
 
 int DFRobot_MCP23017::digitalRead(ePin_t pin){
   uint8_t _pin = (uint8_t)pin;
   uint8_t value = 0;
-  if(_pin >= /*15*/(uint8_t)eGPIOTotal){
-      DBG("pin ERROR!");
-      return ERR_PIN;
-  }
-  if(_pin < (uint8_t)eGPB0){
-      readReg(REG_MCP23017_GPIOA, &value, 1);
+  uint8_t reg = 0;
+  uint8_t flag = false;
+  if(_pin == (uint8_t)eGPA){
+      reg = REG_MCP23017_GPIOA;
+  }else if(_pin == (uint8_t)eGPB){
+      reg = REG_MCP23017_GPIOB;
   }else{
-      readReg(REG_MCP23017_GPIOB, &value, 1);
-      _pin -= 8;
+      if(_pin >= /*15*/(uint8_t)eGPIOTotal){
+          DBG("pin ERROR!");
+          return ERR_PIN;
+      }
+      if(_pin < (uint8_t)eGPB0) reg = REG_MCP23017_GPIOA;
+      else reg = REG_MCP23017_GPIOB;
+      flag = true;
   }
-  DBG("pin=");DBG(_pin);DBG("v=");DBG(value,HEX);
-  return (value >> _pin)&0x01;
+  readReg(reg, &value, 1);
+  if(flag) value = (value >> (_pin%8))&0x01;
+  return value;
 }
 
 
-void DFRobot_MCP23017::pollInterrupts(eGPIOGrout_t group)
+void DFRobot_MCP23017::pollInterrupts(eGPIOGroup_t group)
 {
   uint8_t value;
   if(group & eGPIOA){
@@ -266,46 +278,42 @@ int DFRobot_MCP23017::i2cdetect(uint8_t addr){
   return ERR_ADDR;
 }
 
-int DFRobot_MCP23017::setInput(uint8_t reg, uint8_t index){
-  uint8_t data = 0;
-  if(readReg(reg, &data, 1) != 1){
-      DBG("I2C READ ERROR!");
-      return ERR_DATA_READ;
+int DFRobot_MCP23017::setInput(uint8_t reg, uint8_t index, bool flag){
+  uint8_t data = 0xFF;
+  if(flag){
+      if(readReg(reg, &data, 1) != 1){
+          DBG("I2C READ ERROR!");
+          return ERR_DATA_READ;
+      }
+      DBG(data,HEX);
+      data = updateBit(data, index, 1);
   }
-  DBG(data,HEX);
-  data = updateBit(data, index, 1);
   writeReg(reg, &data, 1);
-  if(readReg(reg, &data, 1) != 1){
-      DBG("I2C READ ERROR!");
-      return ERR_DATA_READ;
-  }
-  DBG(data,HEX);
   return ERR_OK;
 }
 
-int DFRobot_MCP23017::setOutput(uint8_t reg, uint8_t index){
+int DFRobot_MCP23017::setOutput(uint8_t reg, uint8_t index, bool flag){
   uint8_t value = 0;
-  if(readReg(reg, &value, 1) != 1){
-      DBG("I2C READ ERROR!");
-      return ERR_DATA_READ;
+  if(flag){
+      if(readReg(reg, &value, 1) != 1){
+          DBG("I2C READ ERROR!");
+          return ERR_DATA_READ;
+      }
+      DBG(value,HEX);
+      value = updateBit(value, index, 0);
   }
-  DBG(value,HEX);
-  value = updateBit(value, index, 0);
   writeReg(reg, &value, 1);
-  if(readReg(reg, &value, 1) != 1){
-      DBG("I2C READ ERROR!");
-      return ERR_DATA_READ;
-  }
-  DBG(value,HEX);
   return ERR_OK;
 }
-int DFRobot_MCP23017::setPullUp(uint8_t reg, uint8_t index){
-  uint8_t value = 0;
-  if(readReg(reg, &value, 1) != 1){
-      DBG("I2C READ ERROR!");
-      return ERR_DATA_READ;
+int DFRobot_MCP23017::setPullUp(uint8_t reg, uint8_t index, bool flag){
+  uint8_t value = 0xFF;
+  if(flag){
+      if(readReg(reg, &value, 1) != 1){
+          DBG("I2C READ ERROR!");
+          return ERR_DATA_READ;
+      }
+      value = updateBit(value, index, 1);
   }
-  value = updateBit(value, index, 1);
   writeReg(reg, &value, 1);
   return ERR_OK;
 }
