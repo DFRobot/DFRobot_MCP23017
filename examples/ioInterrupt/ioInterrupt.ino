@@ -8,11 +8,10 @@
  * @n function will be executed to print out which pin was interrupted on serial port.
  *
  * @copyright   Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
- * @licence     The MIT License (MIT)
+ * @license     The MIT License (MIT)
  * @author [Arya](xue.peng@dfrobot.com)
  * @version  V1.0
- * @eGPAte  2019-07-18
- * @get from https://www.dfrobot.com
+ * @date  2019-07-18
  * @url https://github.com/DFRobot/DFRobot_MCP23017
  */
 

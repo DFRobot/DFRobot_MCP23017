@@ -5,11 +5,10 @@
  * @n the button status on serial port.
  *
  * @copyright   Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
- * @licence     The MIT License (MIT)
+ * @license     The MIT License (MIT)
  * @author [Arya](xue.peng@dfrobot.com)
  * @version  V1.0
  * @date  2019-07-18
- * @get from https://www.dfrobot.com
  * @url https://github.com/DFRobot/DFRobot_MCP23017
  */
 #include <DFRobot_MCP23017.h>

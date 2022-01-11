@@ -3,7 +3,7 @@
  * @brief Define the basic structure of class DFRobot_MCP23017
  *
  * @copyright   Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
- * @licence     The MIT License (MIT)
+ * @license     The MIT License (MIT)
  * @author [Arya](xue.peng@dfrobot.com)
  * @version  V1.0
  * @date  2019-07-16
@@ -12,6 +12,29 @@
 #include <Arduino.h>
 #include <DFRobot_MCP23017.h>
 #include <string.h>
+
+#define REG_MCP23017_IODIRA   0x00   //< direction register portA, control the direction of the data I/O.
+#define REG_MCP23017_IODIRB   0x01   //< direction register portB, control the direction of the data I/O. 
+#define REG_MCP23017_IPOLA    0x02   //< Input polarity registerA, 1 = GPIO register bit will reflect the opposite logic state of the input pin;0 = GPIO register bit will reflect the same logic state of the input pin.
+#define REG_MCP23017_IPOLB    0x03   //< Input polarity registerB, 1 = GPIO register bit will reflect the opposite logic state of the input pin;0 = GPIO register bit will reflect the same logic state of the input pin.
+#define REG_MCP23017_GPINTENA 0x04   //< Interrupt on change control registorA, control the interrupt-on change feature for each pin: 1 = Enable GPIO input pin for interrupt-on-change event; 0 = Disable GPIO input pin for interrupt-on-change event.
+#define REG_MCP23017_GPINTENB 0x05   //< Interrupt on change control registorB, control the interrupt-on change feature for each pin: 1 = Enable GPIO input pin for interrupt-on-change event; 0 = Disable GPIO input pin for interrupt-on-change event
+#define REG_MCP23017_DEFVALA  0x06   //< Default compare register A for interrupt-on-change.If enabled (via GPINTEN and INTCON) to compare against the DEFVAL register, an opposite value on the associated pin will cause an interrupt to occur.
+#define REG_MCP23017_DEFVALB  0x07   //< Default compare register B for interrupt-on-change.If enabled (via GPINTEN and INTCON) to compare against the DEFVAL register, an opposite value on the associated pin will cause an interrupt to occur
+#define REG_MCP23017_INTCONA  0x08   //< Interrupt control register A, 1 = Controls how the associated pin value is compared for interrupt-on-change; 0 = Pin value is compared against the previous pin value.
+#define REG_MCP23017_INTCONB  0x09   //< Interrupt control register B, 1 = Controls how the associated pin value is compared for interrupt-on-change; 0 = Pin value is compared against the previous pin value.
+#define REG_MCP23017_IOCONA   0x0A   //< Configuration register A contains several bits for configuring the device.
+#define REG_MCP23017_IOCONB   0x0B   //< Configuration register B contains several bits for configuring the device.
+#define REG_MCP23017_GPPUA    0x0C   //< Port A pull-up resistor configuration registerA, control the pull-up resistors for the port pins.
+#define REG_MCP23017_GPPUB    0x0D   //< Port B pull-up resistor configuration registerB, control the pull-up resistors for the port pins.
+#define REG_MCP23017_INTFA    0x0E   //< Interrupt flag register A: 1 = Pin caused interrupt; 0 = Interrupt not pending.
+#define REG_MCP23017_INTFB    0x0F   //< Interrupt flag register B: 1 = Pin caused interrupt; 0 = Interrupt not pending.
+#define REG_MCP23017_INTCAPA  0x10   //< Interrupt capture register A : the INTCAP register captures the GPIO port value at the time the interrupt occurred. The register will remain unchanged until the interrupt is cleared via a read of INTCAP or GPIO.
+#define REG_MCP23017_INTCAPB  0x11   //< Interrupt capture register B: the INTCAP register captures the GPIO port value at the time the interrupt occurred. The register will remain unchanged until the interrupt is cleared via a read of INTCAP or GPIO
+#define REG_MCP23017_GPIOA    0x12   //< Port registerA reflects the value on the port.Reading from this register reads the port. Writing to this register modifies the Output Latch (OLAT) register.
+#define REG_MCP23017_GPIOB    0x13   //< Port registerB reflects the value on the port.Reading from this register reads the port. Writing to this register modifies the Output Latch (OLAT) register
+#define REG_MCP23017_OLATA    0x14   //< Oupput latch registerA provides access to the output latches. 
+#define REG_MCP23017_OLATB    0x15   //< Oupput latch registerB provides access to the output latches.
 
 DFRobot_MCP23017::sPinDescription_t DFRobot_MCP23017::_pinDescriptions[eGPIOTotal]=
 {
