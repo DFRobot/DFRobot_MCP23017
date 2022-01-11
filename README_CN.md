@@ -9,10 +9,10 @@ DFRobot_MCP23017
 ![产品效果图](./resources/images/DFR0626-image.jpg)
 
 
-## Product Link（[https://www.dfrobot.com.cn/goods-2657.html](https://www.dfrobot.com.cn/goods-2657.html)）
+## 产品链接（[https://www.dfrobot.com.cn/goods-2657.html](https://www.dfrobot.com.cn/goods-2657.html)）
     SKU: DFR0626   
    
-## Table of Contents
+## 目录
 
 * [概述](#概述)
 * [库安装](#库安装)
