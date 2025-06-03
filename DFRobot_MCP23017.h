@@ -70,9 +70,9 @@ public:
 	  eGPB,
   }ePin_t;
   typedef enum{
-      eGPIOA,  /**< GPIO Group A*/
-      eGPIOB,  /**< GPIO Group B*/
-      eGPIOALL /**< GPIO Group A+B*/
+      eGPIOA = 1,  /**< GPIO Group A*/
+      eGPIOB = 2,  /**< GPIO Group B*/
+      eGPIOALL = 3 /**< GPIO Group A+B*/
   }eGPIOGroup_t;
   
   typedef enum{
