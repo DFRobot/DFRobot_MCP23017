@@ -150,6 +150,7 @@ micro:bit        |      √       |              |             |
 ## History
 
 - 2019/07/18 - Version 1.0.0 released.
+- 2025/06/03 - Version 1.0.1 released.
 
 ## Credits
 
